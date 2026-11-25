@@ -14,6 +14,7 @@ andrea_trust = 0 #character relationships and influence
 gabriele_trust = 0
 lucia_trust = 0
 beatrice_interest = 0
+suspicion = 0
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -106,7 +107,7 @@ elif answer == "ambitious":
     dialogue("BEATRICE", "Good. I appreciate a young man who takes pride in his work.")
     ambition+=1
     confidence+=1
-    andrea_trust=-1
+    andrea_trust-=1
     beatrice_interest+=2
     memory_note("Andrea")
     narration("Andrea scowls at Tommaso")
@@ -162,7 +163,6 @@ elif answer == "encouraging":
     dialogue("GABRIELE", "Finally, someone who appreciates honest work.")
     dialogue("TOMMASO", "I wouldn't go that far.")
     dialogue("GABRIELE", "Careful. I might start charging you for compliments.")
-    memory_note("Gabriele")
     narration("He knocks his shoulder against Tommaso's.")
     gabriele_trust+=1
 elif answer == "confident":
@@ -438,3 +438,98 @@ elif answer=="aggressive":
 console.print("[bold]End of Chapter II[/bold]")
 console.print()
 time.sleep(0.7)
+console.print("[bold]Chapter III - The Drawing[/bold]")
+console.print("Florence 17 April 1478")
+console.print("[bold]Scene I - The Loggia[/bold]")
+narration("Gabriele is waiting outside the workshop when Tommaso steps out.")
+dialogue("GABRIELE", "There you are. Come along.")
+dialogue("TOMMASO", "Where?")
+dialogue("GABRIELE", "Does it matter? I've been waiting for you.")
+dialogue("TOMMASO","Andrea expects us back.")
+dialogue("GABRIELE","Andrea always expects us back. Come, it's only a short walk.")
+narration("Gabriele leads him through the busy streets, towards a quiet loggia not far from the cathedral. A man is waiting beneath its arches, dressed plainly, though his clothes are of good quality.")
+dialogue("GABRIELE", "Messere, as promised. This is the drawing.")
+narration("The man takes the parchment and carefully unrolls it. It depicts the interior of Santa Maria del Fiore, this time viewed from the choir.")
+dialogue("MAN", "Very good.")
+narration("He studies it for a moment longer.")
+dialogue("MAN", "You have a good eye. Particularly for the arrangement of the figures.")
+dialogue("GABRIELE", "I thought it important to show the scale of the building.")
+dialogue("MAN", "Quite right. My master's glass-painter will appreciate the detail.")
+dialogue("GABRIELE", "Will there be further work, then?")
+dialogue("MAN", "Perhaps. There is always work for a capable hand.")
+narration("He reaches into his purse and counts six florins into Gabriele's palm.")
+dialogue("GABRIELE", "Six? Messer, this is more than we agreed.")
+dialogue("MAN", "You have done good work. Consider it an advance on what may follow.")
+narration("The man rolls the parchment and returns it to Gabriele.")
+dialogue("MAN", "And this is your friend?")
+dialogue("GABRIELE", "Tommaso, we work together.")
+narration("The man turns towards Tommaso.")
+dialogue("MAN", "See that Gabriele comes to Mass on Sunday morning. A man who knows the cathedral so well ought to see it when it is full.")
+answer=show_choice(
+    "How do you respond to the man?",
+    [
+        Choice(
+            title="Of course, Messere. I'll see that he comes.",
+            value="agreeing"
+        ),
+        Choice(
+            title="Why is it so important that he be there?",
+            value="questioning"
+        ),
+        Choice(
+            title=[("italic fg:#888888", "Say nothing. Observe the man carefully.")],
+            value="silent"
+        )
+    ]
+)
+if answer=="agreeing":
+    dialogue("MAN", "Very good. I shall look forward to it.")
+elif answer=="questioning":
+    narration("The man pauses. His expression remains pleasant, although his eyes settle more firmly on Tommaso.")
+    dialogue("MAN", "My master has taken an interest in the work. He would like to see the young man in the place he has drawn.")
+    dialogue("TOMMASO", "I see.")
+    dialogue("MAN", "Good day to you both.")
+    narration("As the man walks away, Gabriele turns towards Tommaso.")
+    dialogue("GABRIELE", "Must you question everyone? He's paying me, isn't he?")
+    suspicion+=1
+    man_noticed_you=True
+elif answer=="silent":
+    narration("Tommaso says nothing. Instead, he watches the stranger as he gathers the parchment.")
+    narration("There is a ring on his right hand, its stone turned inward against his palm. He seems conscious of where Tommaso's eyes have settled, and closes his hand.")
+    narration("The man offers a final nod before leaving.")
+    dialogue("GABRIELE", "Well? What do you make of him?")
+    dialogue("TOMMASO","Nothing. I was merely looking.")
+    dialogue("GABRIELE", "Then look at these instead.")
+    narration("He raises the coins again, smiling.")
+    suspicion+=1
+    noticed_ring=True
+
+narration("On their way back, Gabriele becomes quieter. He unrolls a second sheet of parchment.")
+dialogue("GABRIELE", "Here. Could you keep this for me?")
+dialogue("TOMMASO", "Another drawing?")
+dialogue("GABRIELE", "An earlier study of the cathedral. Andrea wasn't particularly fond of it, as you might remember.")
+narration("Is the drawing Gabriele had worked on before.")
+dialogue("GABRIELE", "I might need it if the glass-painter asks for changes. And I would rather not leave it at home. My landlady has a habit of using old parchment to start her fire.")
+narration("He hands Tommaso the parchment.")
+answer=show_choice(
+    "What do you do?",
+    [
+        Choice(
+            title=[("italic fg:#888888", "Take the drawing and put it away safely.")],
+            value="take it"
+        ),
+        Choice(
+            title="Keep it yourself. I would rather not be responsible for it.",
+            value="don't take it"
+        )
+    ]
+)
+if answer=="take it":
+    dialogue("TOMMASO", "Very well. I'll keep it in the workshop.")
+    dialogue("GABRIELE", "Thank you. I'll collect it when I need it.")
+    holds_drawing=True
+
+else:
+    dialogue("TOMMASO", "Keep it yourself, Gabriele. I have enough things to worry about.")
+    dialogue("GABRIELE", "Fine.")
+    holds_drawing=False
